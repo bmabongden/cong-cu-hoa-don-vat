@@ -36,6 +36,11 @@ class TestCheck(unittest.TestCase):
         info = check_for_update(repo="a/b", current="0.3.0", fetch=lambda url: {"tag_name": "v0.3.0"})
         self.assertFalse(info.has_update)
 
+    def test_non_github_link_is_replaced(self):
+        info = check_for_update(repo="a/b", current="0.3.0",
+                                fetch=lambda url: {"tag_name": "v0.4.0", "html_url": "http://evil.example/x"})
+        self.assertEqual(info.url, "https://github.com/a/b/releases/latest")
+
     def test_url_uses_repo(self):
         seen = []
         check_for_update(repo="khiem/cong-cu", current="0.3.0",

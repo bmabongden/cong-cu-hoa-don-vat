@@ -112,10 +112,9 @@ class BalancePage(ToolPage):
 
     # ------------------------------------------------------------------
     def reset(self) -> None:
+        # Không chặn tín hiệu: ô nhập cần textChanged để quên nội dung cũ (dấu phẩy thập phân).
         for edit in (self.paid_input, self.invoice_input, self.item_input):
-            edit.blockSignals(True)
             edit.clear()
-            edit.blockSignals(False)
         self.rate_selector.set_rate(DEFAULT_VAT_RATE)
         self.recalculate()
         self.focus_first()

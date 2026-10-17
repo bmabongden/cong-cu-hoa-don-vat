@@ -74,10 +74,14 @@ def check_for_update(repo: str = None, current: str = APP_VERSION, fetch=_fetch_
     latest = str(data.get("tag_name") or "").strip()
     if not latest:
         raise UpdateError("Không đọc được thông tin phiên bản từ GitHub.")
+    # Chỉ mở trang trên github.com, tránh mở đường dẫn lạ nếu dữ liệu trả về bất thường.
+    url = str(data.get("html_url") or "")
+    if not url.startswith("https://github.com/"):
+        url = f"https://github.com/{repo}/releases/latest"
     return UpdateInfo(
         current=current,
         latest=latest.lstrip("vV"),
         has_update=is_newer(latest, current),
-        url=str(data.get("html_url") or f"https://github.com/{repo}/releases/latest"),
+        url=url,
         notes=str(data.get("body") or ""),
     )

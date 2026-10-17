@@ -51,9 +51,7 @@ class PreVatPage(ToolPage):
         self.recalculate()
 
     def reset(self) -> None:
-        self.price_input.blockSignals(True)
-        self.price_input.clear()
-        self.price_input.blockSignals(False)
+        self.price_input.clear()  # không chặn tín hiệu, xem BalancePage.reset
         self.rate_selector.set_rate(DEFAULT_VAT_RATE)
         self.recalculate()
         self.focus_first()
